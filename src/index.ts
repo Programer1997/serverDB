@@ -26,12 +26,16 @@ client.connect();
     const response = await client.query("SELECT * FROM users;");
   
     const data = response.rows;
-  
+    //console.log(response);
     res.send(data);
   });
 
-  app.post('/api/users',(req,res)=>{
-    const data = req.body;
+  app.post('/api/users',async (req,res)=>{
+    const {id,name,email,password} = req.body;
+
+    const response = await client.query("INSERT INTO users (id,name,email,password) VALUES ($1,$2,$3,$4) RETURNING *",[id,name,email,password]);
+    const data = response.rows;
+    console.log(data);
     res.json(data);
   });
 
