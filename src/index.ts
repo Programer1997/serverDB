@@ -3,10 +3,10 @@ import {Pool} from "pg";
 
 const app = express();
 const PORT = 3000;
-/*
+
 const client = new Pool({
     user: "postgres",
-    database: "pg_test",
+    database: "postgres",
     port: 5432,
     host: "localhost",
     password: "Abraham970621A"
@@ -14,14 +14,20 @@ const client = new Pool({
 
 client.connect();
 
-const res = await client.query('SELECT $1::text as message', ['Hello world!'])
-console.log(res.rows[0].message) // Hello world!
-await client.end()*/
+
 
   app.use(express.json());
 
   app.get('/',(req,res)=>{
     res.send('welcome to the tinyLink Sever');
+  });
+
+  app.get("/users", async (req, res) => {
+    const response = await client.query("SELECT * FROM users;");
+  
+    const data = response.rows;
+  
+    res.send(data);
   });
 
   app.post('/api/users',(req,res)=>{
